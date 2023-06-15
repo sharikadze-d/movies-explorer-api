@@ -14,6 +14,10 @@ const ERROR_USER_NOT_FOUND = 'Пользователь по указанному
 const ERROR_USER_LOGIN = 'Неверный email или пароль';
 const ERROR_USER_UNAUTHORIZED = 'Необходима авторизация';
 
+const ERROR_MOVIE_VALIDATION = 'Переданы некорректные данные при добавлении фильма.';
+const ERROR_MOVIE_NOT_FOUND = 'Фильм с указанным _id не найден.';
+const ERROR_MOVIE_FORBIDDEN = 'Ошибка доступа.';
+
 const ERROR_SERVER = 'Произошла ошибка на сервере.';
 
 module.exports = {
@@ -31,4 +35,7 @@ module.exports = {
   ERROR_USER_UNAUTHORIZED,
   ERROR_USER_LOGIN,
   ERROR_SERVER,
+  ERROR_MOVIE_VALIDATION,
+  ERROR_MOVIE_NOT_FOUND,
+  ERROR_MOVIE_FORBIDDEN,
 };

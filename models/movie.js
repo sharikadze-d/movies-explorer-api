@@ -37,8 +37,8 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator(image) {
-        return validator.isURL(image);
+      validator(trailerLink) {
+        return validator.isURL(trailerLink);
       },
       message: ERROR_INVALID_TRAILER_LINK,
     },
@@ -47,8 +47,8 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator(image) {
-        return validator.isURL(image);
+      validator(thumbnail) {
+        return validator.isURL(thumbnail);
       },
       message: ERROR_INVALID_THUMBNAIL_LINK,
     },
