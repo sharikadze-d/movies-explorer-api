@@ -36,12 +36,6 @@ const handleError = (err, next) => {
     .catch(next);
 };
 
-const getUserData = (req, res) => {
-  User.findById(req.user._id)
-    .then((user) => checkAviability(user, res))
-    .catch((err) => handleError(err, res));
-};
-
 const createUser = (req, res, next) => {
   const userData = req.body;
   bcrypt.hash(req.body.password, SALT_ROUNDS)
@@ -68,8 +62,23 @@ const login = (req, res, next) => {
     .catch(next);
 };
 
+const getUserData = (req, res) => {
+  User.findById(req.user._id)
+    .then((user) => checkAviability(user, res))
+    .catch((err) => handleError(err, res));
+};
+
+const updateProfile = (req, res, next) => {
+  const userData = req.body;
+  const userId = req.user._id;
+  User.findByIdAndUpdate(userId, userData, { new: true, runValidators: true })
+    .then((user) => checkAviability(user, res))
+    .catch((err) => handleError(err, next));
+};
+
 module.exports = {
   getUserData,
   createUser,
   login,
+  updateProfile,
 };
