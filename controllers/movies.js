@@ -45,7 +45,24 @@ const addMovie = (req, res, next) => {
     .catch((err) => handleError(err, next));
 };
 
+const deleteMovie = (req, res, next) => {
+  const { movieId } = req.params;
+  Movie.findById(movieId)
+    .then((card) => {
+      if (!card) {
+        throw new NotFoundError(ERROR_MOVIE_NOT_FOUND);
+      }
+      if (req.user._id !== card.owner._id.toString()) {
+        throw new ForbiddenError(ERROR_MOVIE_FORBIDDEN);
+      }
+      return card.deleteOne();
+    })
+    .then((card) => res.send(card))
+    .catch((err) => handleError(err, next));
+};
+
 module.exports = {
   getMovies,
   addMovie,
+  deleteMovie,
 };
