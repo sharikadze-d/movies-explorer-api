@@ -1,3 +1,3 @@
 # movies-explorer-api
 
-Backend: https://api.movies.dsharikadze.nomoredomains.rocks
+Сервер доступен по ссылке: https://api.movies.dsharikadze.nomoredomains.rocks
