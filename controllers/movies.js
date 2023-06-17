@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const { HTTP_STATUS_CREATED } = require('http2').constants;
 
 const NotFoundError = require('../errors/NotFoundError');
@@ -6,7 +7,7 @@ const ValidationError = require('../errors/ValidationError');
 const ForbiddenError = require('../errors/ForbiddenError');
 
 const Movie = require('../models/movie');
-// const { checkAviability } = require('../utils/utils');
+
 const {
   ERROR_MOVIE_VALIDATION,
   ERROR_MOVIE_NOT_FOUND,
@@ -15,19 +16,16 @@ const {
 } = require('../utils/constants');
 
 const handleError = (err, next) => {
-  (function switchError() {
-    if (err.name === 'ValidationError' || err.name === 'CastError') {
-      return Promise.reject(new ValidationError(ERROR_MOVIE_VALIDATION));
-    }
-    if (err.name === 'NotFoundError') {
-      return Promise.reject(new NotFoundError(ERROR_MOVIE_NOT_FOUND));
-    }
-    if (err.name === 'ForbiddenError') {
-      return Promise.reject(new ForbiddenError(ERROR_MOVIE_FORBIDDEN));
-    }
-    return Promise.reject(new ServerError(ERROR_SERVER));
-  }())
-    .catch(next);
+  if (err instanceof mongoose.Error.ValidationError || err instanceof mongoose.Error.CastError) {
+    return next(new ValidationError(ERROR_MOVIE_VALIDATION));
+  }
+  if (err instanceof mongoose.Error.NotFoundError || err instanceof NotFoundError) {
+    return next(new NotFoundError(ERROR_MOVIE_NOT_FOUND));
+  }
+  if (err instanceof ForbiddenError) {
+    return next(new ForbiddenError(ERROR_MOVIE_FORBIDDEN));
+  }
+  return next(new ServerError(ERROR_SERVER));
 };
 
 const getMovies = (req, res, next) => {
@@ -50,10 +48,10 @@ const deleteMovie = (req, res, next) => {
   Movie.findById(movieId)
     .then((card) => {
       if (!card) {
-        throw new NotFoundError(ERROR_MOVIE_NOT_FOUND);
+        return next(new NotFoundError(ERROR_MOVIE_NOT_FOUND));
       }
       if (req.user._id !== card.owner._id.toString()) {
-        throw new ForbiddenError(ERROR_MOVIE_FORBIDDEN);
+        return next(new ForbiddenError(ERROR_MOVIE_FORBIDDEN));
       }
       return card.deleteOne();
     })

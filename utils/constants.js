@@ -14,7 +14,7 @@ const ERROR_USER_NOT_FOUND = 'Пользователь по указанному
 const ERROR_USER_LOGIN = 'Неверный email или пароль';
 const ERROR_USER_UNAUTHORIZED = 'Необходима авторизация';
 
-const ERROR_MOVIE_VALIDATION = 'Переданы некорректные данные при добавлении фильма.';
+const ERROR_MOVIE_VALIDATION = 'Переданы некорректные данные при добавлении / удалении фильма.';
 const ERROR_MOVIE_NOT_FOUND = 'Фильм с указанным _id не найден.';
 const ERROR_MOVIE_FORBIDDEN = 'Ошибка доступа.';
 

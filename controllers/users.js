@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
 const { HTTP_STATUS_CREATED } = require('http2').constants;
 
 const User = require('../models/user');
@@ -21,19 +22,16 @@ const {
 } = require('../utils/constants');
 
 const handleError = (err, next) => {
-  (function switchError() {
-    if (err.code === 11000) {
-      return Promise.reject(new AlreadyExistError(ERROR_USER_ALREADY_EXIST));
-    }
-    if (err.name === 'ValidationError' || err.name === 'CastError') {
-      return Promise.reject(new ValidationError(ERROR_USER_VALIDATION));
-    }
-    if (err.name === 'NotFoundError') {
-      return Promise.reject(new NotFoundError(ERROR_USER_NOT_FOUND));
-    }
-    return Promise.reject(new ServerError(ERROR_SERVER));
-  }())
-    .catch(next);
+  if (err.code === 11000) {
+    return next(new AlreadyExistError(ERROR_USER_ALREADY_EXIST));
+  }
+  if (err instanceof mongoose.Error.ValidationError || err instanceof mongoose.Error.CastError) {
+    return next(new ValidationError(ERROR_USER_VALIDATION));
+  }
+  if (err instanceof mongoose.Error.DocumentNotFoundError || err instanceof NotFoundError) {
+    return next(new NotFoundError(ERROR_USER_NOT_FOUND));
+  }
+  return next(new ServerError(ERROR_SERVER));
 };
 
 const createUser = (req, res, next) => {
@@ -62,10 +60,10 @@ const login = (req, res, next) => {
     .catch(next);
 };
 
-const getUserData = (req, res) => {
+const getUserData = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => checkAviability(user, res))
-    .catch((err) => handleError(err, res));
+    .catch((err) => handleError(err, next));
 };
 
 const updateProfile = (req, res, next) => {
