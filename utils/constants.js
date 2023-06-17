@@ -19,6 +19,7 @@ const ERROR_MOVIE_NOT_FOUND = 'Фильм с указанным _id не най�
 const ERROR_MOVIE_FORBIDDEN = 'Ошибка доступа.';
 
 const ERROR_SERVER = 'Произошла ошибка на сервере.';
+const ERROR_PAGE_NOT_FOUND = 'Страница не найдена';
 
 const ERROR_LIMITER = 'Превышено количество запросов к серверу';
 
@@ -41,4 +42,5 @@ module.exports = {
   ERROR_MOVIE_NOT_FOUND,
   ERROR_MOVIE_FORBIDDEN,
   ERROR_LIMITER,
+  ERROR_PAGE_NOT_FOUND,
 };
