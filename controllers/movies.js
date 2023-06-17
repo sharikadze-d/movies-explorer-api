@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { HTTP_STATUS_CREATED } = require('http2').constants;
 
 const NotFoundError = require('../errors/NotFoundError');
-const ServerError = require('../errors/SererError');
+const ServerError = require('../errors/ServerError');
 const ValidationError = require('../errors/ValidationError');
 const ForbiddenError = require('../errors/ForbiddenError');
 

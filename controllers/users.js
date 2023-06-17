@@ -8,7 +8,7 @@ const { getJwtToken } = require('../utils/jwt');
 
 const NotFoundError = require('../errors/NotFoundError');
 const AlreadyExistError = require('../errors/AlreadyExistError');
-const ServerError = require('../errors/SererError');
+const ServerError = require('../errors/ServerError');
 const ValidationError = require('../errors/ValidationError');
 const UnauthorizedError = require('../errors/UnauthoriedError');
 

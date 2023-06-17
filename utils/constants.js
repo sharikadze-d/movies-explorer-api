@@ -20,6 +20,8 @@ const ERROR_MOVIE_FORBIDDEN = 'Ошибка доступа.';
 
 const ERROR_SERVER = 'Произошла ошибка на сервере.';
 
+const ERROR_LIMITER = 'Превышено количество запросов к серверу';
+
 module.exports = {
   PORT_DEV,
   DB_PATH_DEV,
@@ -38,4 +40,5 @@ module.exports = {
   ERROR_MOVIE_VALIDATION,
   ERROR_MOVIE_NOT_FOUND,
   ERROR_MOVIE_FORBIDDEN,
+  ERROR_LIMITER,
 };
