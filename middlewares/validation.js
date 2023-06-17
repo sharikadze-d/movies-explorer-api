@@ -2,33 +2,11 @@ const { celebrate, Joi } = require('celebrate');
 
 const REGEXP_LINK = /https?:\/\/(www\.)?[0-9A-Za-z\-._~:/?#[\]@!$&'()*+,;=]+\.[a-zA-Z]{2,8}[0-9A-Za-z\-._~:/?#[\]@!$&'()*+,;=]*/;
 
-const avatarUpdateValidation = celebrate({
-  body: Joi.object().keys({
-    avatar: Joi.string().required().pattern(REGEXP_LINK),
-  }),
-});
-
-const profileUpdateValidation = celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-  }),
-});
-
-const createCardValidation = celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30),
-    link: Joi.string().required().pattern(REGEXP_LINK),
-  }),
-});
-
 const createUserValidation = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
     email: Joi.string().email().required(),
     password: Joi.string().required().min(2),
-    avatar: Joi.string().pattern(REGEXP_LINK),
   }),
 });
 
@@ -39,24 +17,39 @@ const loginValidation = celebrate({
   }),
 });
 
-const userIdValidation = celebrate({
-  params: Joi.object().keys({
-    userId: Joi.string().hex().length(24),
+const userUpdateValidation = celebrate({
+  body: Joi.object().keys({
+    name: Joi.string().min(2).max(30),
+    email: Joi.string().email(),
   }),
 });
 
-const cardIdValidation = celebrate({
+const addMovieValidation = celebrate({
+  body: Joi.object().keys({
+    country: Joi.string().required(),
+    director: Joi.string().required(),
+    duration: Joi.number().required(),
+    year: Joi.string().required(),
+    description: Joi.string().required(),
+    image: Joi.string().required().pattern(REGEXP_LINK),
+    trailer: Joi.string().required().pattern(REGEXP_LINK),
+    thumbnail: Joi.string().required().pattern(REGEXP_LINK),
+    movieId: Joi.number().required(),
+    nameRU: Joi.string().required(),
+    nameEN: Joi.string().required(),
+  }),
+});
+
+const deleteMovieValidation = celebrate({
   params: Joi.object().keys({
-    cardId: Joi.string().hex().length(24),
+    movieId: Joi.string().hex().length(24),
   }),
 });
 
 module.exports = {
-  avatarUpdateValidation,
-  profileUpdateValidation,
-  createCardValidation,
   createUserValidation,
   loginValidation,
-  userIdValidation,
-  cardIdValidation,
+  userUpdateValidation,
+  addMovieValidation,
+  deleteMovieValidation,
 };

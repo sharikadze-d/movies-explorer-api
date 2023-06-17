@@ -19,7 +19,7 @@ const handleError = (err, next) => {
   if (err instanceof mongoose.Error.ValidationError || err instanceof mongoose.Error.CastError) {
     return next(new ValidationError(ERROR_MOVIE_VALIDATION));
   }
-  if (err instanceof mongoose.Error.NotFoundError || err instanceof NotFoundError) {
+  if (err instanceof mongoose.Error.DocumentNotFoundError || err instanceof NotFoundError) {
     return next(new NotFoundError(ERROR_MOVIE_NOT_FOUND));
   }
   if (err instanceof ForbiddenError) {
@@ -46,14 +46,14 @@ const addMovie = (req, res, next) => {
 const deleteMovie = (req, res, next) => {
   const { movieId } = req.params;
   Movie.findById(movieId)
-    .then((card) => {
-      if (!card) {
-        return next(new NotFoundError(ERROR_MOVIE_NOT_FOUND));
+    .then((movie) => {
+      if (!movie) {
+        return Promise.reject(new NotFoundError(ERROR_MOVIE_NOT_FOUND));
       }
-      if (req.user._id !== card.owner._id.toString()) {
-        return next(new ForbiddenError(ERROR_MOVIE_FORBIDDEN));
+      if (req.user._id !== movie.owner._id.toString()) {
+        return Promise.reject(new ForbiddenError(ERROR_MOVIE_FORBIDDEN));
       }
-      return card.deleteOne();
+      return movie.deleteOne();
     })
     .then((card) => res.send(card))
     .catch((err) => handleError(err, next));
