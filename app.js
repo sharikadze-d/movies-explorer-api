@@ -21,12 +21,12 @@ const { createUserValidation, loginValidation } = require('./middlewares/validat
 const app = express();
 
 app.use(cors());
+app.use(requestLogger);
 app.use(limiter);
 
 mongoose.connect(isProduction() ? DB_PATH : DB_PATH_DEV);
 
 app.use(express.json());
-app.use(requestLogger);
 app.use(helmet());
 
 app.use('/signup', createUserValidation, createUser);
