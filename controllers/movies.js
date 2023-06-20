@@ -37,8 +37,7 @@ const getMovies = (req, res, next) => {
 const addMovie = (req, res, next) => {
   const owner = req.user._id;
   const movieData = req.body;
-  const trailerLink = req.body.trailer;
-  Movie.create({ ...movieData, trailerLink, owner })
+  Movie.create({ ...movieData, owner })
     .then((movie) => res.status(HTTP_STATUS_CREATED).send(movie))
     .catch((err) => handleError(err, next));
 };
