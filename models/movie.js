@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const {
-  ERROR_INVALID_IMAGE_LINK,
+  // ERROR_INVALID_IMAGE_LINK,
   ERROR_INVALID_TRAILER_LINK,
-  ERROR_INVALID_THUMBNAIL_LINK,
+  // ERROR_INVALID_THUMBNAIL_LINK,
 } = require('../utils/constants');
 
 const movieSchema = new mongoose.Schema({
@@ -30,12 +30,12 @@ const movieSchema = new mongoose.Schema({
   image: {
     type: String,
     required: true,
-    validate: {
-      validator(image) {
-        return validator.isURL(image);
-      },
-      message: ERROR_INVALID_IMAGE_LINK,
-    },
+    // validate: {
+    //   validator(image) {
+    //     return validator.isURL(image);
+    //   },
+    //   message: ERROR_INVALID_IMAGE_LINK,
+    // },
   },
   trailerLink: {
     type: String,
@@ -50,12 +50,12 @@ const movieSchema = new mongoose.Schema({
   thumbnail: {
     type: String,
     required: true,
-    validate: {
-      validator(thumbnail) {
-        return validator.isURL(thumbnail);
-      },
-      message: ERROR_INVALID_THUMBNAIL_LINK,
-    },
+    // validate: {
+    //   validator(thumbnail) {
+    //     return validator.isURL(thumbnail);
+    //   },
+    //   message: ERROR_INVALID_THUMBNAIL_LINK,
+    // },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
